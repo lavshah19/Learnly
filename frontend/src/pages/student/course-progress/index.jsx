@@ -58,7 +58,7 @@ const StudentViewCourseProgressPage = () => {
         if (response?.data?.progress?.length === 0) {
           setCurrentLecture(response?.data?.courseDetails?.curriculum[0]);
         } else {
-          console.log("logging here");
+          // console.log("logging here");
           const lastIndexOfViewedAsTrue = response?.data?.progress.reduceRight(
             (acc, obj, index) => {
               return acc === -1 && obj.viewed ? index : acc;
@@ -192,21 +192,39 @@ const StudentViewCourseProgressPage = () => {
               <ScrollArea className="h-full">
                 <div className="p-4 space-y-4">
                   {studentCurrentCourseProgress?.courseDetails?.curriculum.map(
-                    (item) => (
-                      <div
-                        className="flex items-center space-x-2 text-sm text-white font-bold cursor-pointer"
-                        key={item._id}
-                      >
-                        {studentCurrentCourseProgress?.progress?.find(
-                          (progressItem) => progressItem.lectureId === item._id
-                        )?.viewed ? (
-                          <Check className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <Play className="h-4 w-4 " />
-                        )}
-                        <span>{item?.title}</span>
-                      </div>
-                    )
+                    (item) => {
+                      const isViewed = studentCurrentCourseProgress?.progress?.find(
+                        (progressItem) => progressItem.lectureId === item._id
+                      )?.viewed;
+                      const isSelected = currentLecture?._id === item._id;
+                      
+                      return (
+                        <div
+                          className={`flex items-center space-x-2 text-sm font-bold p-2 rounded transition-colors ${
+                            isViewed || isSelected
+                              ? `cursor-pointer hover:bg-gray-700 ${
+                                  isSelected ? "bg-gray-800" : ""
+                                }`
+                              : "cursor-not-allowed text-gray-500"
+                          }`}
+                          key={item._id}
+                          onClick={() => {
+                            if (isViewed) {
+                              setCurrentLecture(item);
+                            }
+                          }}
+                        >
+                          {isViewed ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <Play className="h-4 w-4 text-gray-500" />
+                          )}
+                          <span className={isViewed ? "text-white" : "text-gray-500"}>
+                            {item?.title}
+                          </span>
+                        </div>
+                      );
+                    }
                   )}
                 </div>
               </ScrollArea>

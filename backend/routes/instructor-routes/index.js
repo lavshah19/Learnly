@@ -35,7 +35,7 @@ router.delete('/delete/:id',async(req,res)=>{
                 message:"No file uploaded by this id"
             })
         }
-        console.log(req.params.id);
+        // console.log(req.params.id);
 
 
         
