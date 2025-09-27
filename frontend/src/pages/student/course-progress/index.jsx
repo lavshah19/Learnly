@@ -197,7 +197,7 @@ const StudentViewCourseProgressPage = () => {
                         (progressItem) => progressItem.lectureId === item._id
                       )?.viewed;
                       const isSelected = currentLecture?._id === item._id;
-                      
+                       
                       return (
                         <div
                           className={`flex items-center space-x-2 text-sm font-bold p-2 rounded transition-colors ${

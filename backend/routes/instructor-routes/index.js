@@ -72,6 +72,7 @@ router.post("/bulk-upload", upload.array("files", 10), async (req, res) => {
     const results = await Promise.all(uploadPromises);
 
     res.status(200).json({
+        message: "Files uploaded successfully",
       success: true,
       data: results,
     });

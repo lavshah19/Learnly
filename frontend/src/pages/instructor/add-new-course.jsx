@@ -17,6 +17,7 @@ import {
 } from "@/services";
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const AddNewCoursePage = () => {
   const {
@@ -65,7 +66,8 @@ const AddNewCoursePage = () => {
   }
 
   async function handleCreateCourse() {
-    const courseFinalFormData = {
+    try {
+      const courseFinalFormData = {
       instructorId: auth?.user?.userId,
       instructorName: auth?.user?.userName,
       date: new Date(),
@@ -86,14 +88,23 @@ const AddNewCoursePage = () => {
     if (response?.success) {
       setCourseLandingFormData(courseLandingInitialFormData);
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
+      toast.success(response.message);
       navigate(-1);
       setCurrentEditedCourseId(null);
       // console.log(response, "response");
+    }else{
+    toast.error(response?.message);
+  }
+      
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      
     }
+
 
     // console.log(courseFinalFormData, "courseFinalFormData");
   }
-
   async function fetchCurrentCourseDetails() {
    
 

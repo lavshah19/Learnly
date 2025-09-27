@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { InstructorContext } from "@/context/instructor-context";
 import { mediaDeleteService, mediaUploadService } from "@/services";
 import React, { useContext } from "react";
+import { toast } from "sonner";
 
 const CourseSetting = () => {
   const {
@@ -33,10 +34,15 @@ const CourseSetting = () => {
           cpyCourseLandingFormData.public_id = response.data.public_id;
           setCourseLandingFormData(cpyCourseLandingFormData);
           setMediaUploadProgress(false);
+          toast.success(response.message);
+        }else{
+          toast.error(response.message);
+          setMediaUploadProgress(false);
         }
       } catch (error) {
         console.log(error);
         setMediaUploadProgress(false);
+        toast.error(error?.response?.data?.message || "Something went wrong");
       }
     }
   }
@@ -54,9 +60,11 @@ const CourseSetting = () => {
         cpyCourseCurriculumFormData.image = "";
         cpyCourseCurriculumFormData.public_id = "";
         setCourseLandingFormData(cpyCourseCurriculumFormData);
+        toast.success(deleteCurrentVideoResponse.message);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
   console.log(courseLandingFormData);

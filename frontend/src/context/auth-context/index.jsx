@@ -6,6 +6,7 @@ import {
   registerService,
 } from "@/services";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "sonner"
 
 export const AuthContext = createContext(null);
 
@@ -21,8 +22,15 @@ export default function AuthProvider({ children }) {
     try {
       event.preventDefault();
       const data = await registerService(signUpFormData);
+      if(data.success){
+        toast.success(data.message);
+      }else{
+        toast.error(data.message);
+      }
+
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
   const handelLoginUser = async (event) => {
@@ -37,14 +45,17 @@ export default function AuthProvider({ children }) {
           authenticate: true,
           user: data.user,
         });
+        toast.success(data.message);
       } else {
         setAuthUser({
           authenticate: false,
           user: null,
         });
+        toast.error(data.message);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   };
   // console.log(authUser);

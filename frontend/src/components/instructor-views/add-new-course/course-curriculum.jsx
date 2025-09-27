@@ -14,6 +14,7 @@ import {
 } from "@/services/index";
 import { Upload } from "lucide-react";
 import { useContext, useRef } from "react";
+import { toast } from "sonner";
 
 const CourseCurriculum = () => {
   const bulkUploadRef = useRef(null);
@@ -54,9 +55,13 @@ const CourseCurriculum = () => {
           public_id: "",
         };
         setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+        toast.success(deleteCurrentVideoResponse.message);
+      }else{
+        toast.error(deleteCurrentVideoResponse.message);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error?.response?.data?.message || "Something went wrong");
     }
   }
   function handelNewLecture() {
@@ -108,6 +113,11 @@ const CourseCurriculum = () => {
           };
           setCourseCurriculumFormData(cpyCourseCurriculumFormData);
           setMediaUploadProgress(false);
+          toast.success(response.message);
+        }
+        else{
+          setMediaUploadProgress(false);
+          toast.error(response.message);
         }
       } catch (error) {
         console.log(error);
@@ -163,9 +173,16 @@ const CourseCurriculum = () => {
         ];
         setCourseCurriculumFormData(cpyCourseCurriculumFormdata);
         setMediaUploadProgress(false);
+        toast.success(response?.message);
+        
+      }else{
+        setMediaUploadProgress(false);
+        toast.error(response?.message);
       }
     } catch (e) {
       console.log(e);
+      setMediaUploadProgress(false);
+      toast.error(e?.response?.data?.message || "Something went wrong");
     }
   }
   // console.log(CourseCurriculumFormData, "CourseCurriculumFormData");
@@ -178,11 +195,13 @@ const CourseCurriculum = () => {
     const response = await mediaDeleteService(getCurrentSelectedVideoPublicId, "video");
 
     if (response?.success) {
+
       cpyCourseCurriculumFormData = cpyCourseCurriculumFormData.filter(
         (_, index) => index !== currentIndex
       );
 
       setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+      toast.success(response.message);
     }
   }
 

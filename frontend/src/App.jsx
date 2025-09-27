@@ -15,6 +15,7 @@ import Success from "./pages/student/payment/Success";
 import Failure from "./pages/student/payment/Failure";
 import StudentCoursesPage from "./pages/student/student-courses";
 import StudentViewCourseProgressPage from "./pages/student/course-progress";
+import { Toaster } from "@/components/ui/sonner"
 
 
 
@@ -88,6 +89,8 @@ function App() {
     </Route>
     <Route path='*' element={<NotFoundPage/>} />
   </Routes>
+
+    <Toaster />
   
   
   </>
