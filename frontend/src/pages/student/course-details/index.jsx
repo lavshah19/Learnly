@@ -104,7 +104,7 @@ export default function StudentViewCourseDetailPage() {
       coursePricing: studentViewCourseDetails?.pricing,
     };
 
-    console.log(paymentPayload, "paymentPayload");
+    // console.log(paymentPayload, "paymentPayload");
     const response = await createPaymentService(paymentPayload);
 
     if (response.success) {
