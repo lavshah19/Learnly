@@ -18,12 +18,15 @@ export default function AuthProvider({ children }) {
     user: null,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("signin");
   const handelRegisterUser = async (event) => {
     try {
       event.preventDefault();
       const data = await registerService(signUpFormData);
       if(data.success){
         toast.success(data.message);
+        setSignUpFormData(initialSignUpFormData);
+        setActiveTab("signin");
       }else{
         toast.error(data.message);
       }
@@ -109,6 +112,8 @@ export default function AuthProvider({ children }) {
         authUser,
         setAuthUser,
         resetCredentials,
+        activeTab,
+        setActiveTab
       }}
     >
       {isLoading ? <Skeleton /> : children}

@@ -16,13 +16,13 @@ import {
 import { AuthContext } from "@/context/auth-context";
 
 const AuthPage = () => {
-    const [activeTab, setActiveTab] = useState("signin");
+    
     const { signInFormData,
         setSignInFormData,
         signUpFormData,
         setSignUpFormData,
     handelRegisterUser
-,handelLoginUser}=useContext(AuthContext);
+,handelLoginUser,activeTab,setActiveTab}=useContext(AuthContext);
 
     const handelTabChange = (tab) => {
         
